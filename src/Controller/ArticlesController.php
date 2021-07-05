@@ -20,7 +20,7 @@ class ArticlesController extends AppController {
         $article = $this->Articles->get($id);
         $this->set(compact('article'));
     }
-
+    
     public function add() {
         $article = $this->Articles->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -31,6 +31,20 @@ class ArticlesController extends AppController {
             }
             $this->Flash->error(__('Unable to add your article.'));
         }
+        $this->set('article', $article);
+    }
+    
+    public function edit($id = null) {
+        $article = $this->Articles->get($id);
+        if ($this->request->is(['post', 'put'])) {
+            $this->Articles->patchEntity($article, $this->request->getData());
+            if ($this->Articles->save($article)) {
+                $this->Flash->success(__('Your article has been updated.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to update your article.'));
+        }
+
         $this->set('article', $article);
     }
 }
