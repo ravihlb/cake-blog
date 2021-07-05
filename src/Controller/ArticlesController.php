@@ -13,7 +13,7 @@ class ArticlesController extends AppController {
     }
     
     public function index() {
-        $articles = $this->Articles->find()->all();
+        $this->set('articles', $this->Articles->find()->all());
     }
 
     public function view($id = null) {
